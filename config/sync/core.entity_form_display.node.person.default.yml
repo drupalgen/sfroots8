@@ -1,0 +1,46 @@
+uuid: 5f75340c-687e-45b7-9a00-bfbc9a0f1f6a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.person.field_person_given_name
+    - field.field.node.person.field_person_surname
+    - node.type.person
+  module:
+    - path
+id: node.person.default
+targetEntityType: node
+bundle: person
+mode: default
+content:
+  field_person_given_name:
+    weight: 2
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+  field_person_surname:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+  path:
+    type: path
+    weight: 4
+    settings: {  }
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  promote: true
+  sticky: true
+  uid: true

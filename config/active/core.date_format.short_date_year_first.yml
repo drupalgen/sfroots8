@@ -1,0 +1,8 @@
+uuid: 079137d6-a132-482b-a700-aa70b5cd7bb1
+langcode: en
+status: true
+dependencies: {  }
+id: short_date_year_first
+label: 'Short Date Year first'
+locked: false
+pattern: 'Y M d'
