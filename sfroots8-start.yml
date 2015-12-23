@@ -1,0 +1,24 @@
+commands:
+  - command: site:new
+    arguments:
+      site-name: www
+      version: 8.0.1
+  - command: site:install
+    options:
+        root: /var/www/sites/sfroots8.dev/www
+        langcode: en
+        db-type: mysql
+        db-port: 3306
+        db-host: localhost
+        db-name: default
+        db-user: default
+        db-pass: default
+        site-name: 'SF Roots D8'
+        site-mail: admin@example.com
+        account-name: admin
+        account-mail: admin@example.com
+        account-pass: drupaladm1n
+        generate-inline: true
+    arguments:
+        profile: standard
+        

@@ -1,0 +1,12 @@
+uuid: 4d5e5f8b-f61e-4bc3-a802-2d6b8d056c17
+name: 'SF Roots D8'
+mail: admin@example.com
+slogan: ''
+page:
+  403: ''
+  404: ''
+  front: /node
+admin_compact_mode: false
+weight_select_max: 100
+langcode: en
+default_langcode: en
