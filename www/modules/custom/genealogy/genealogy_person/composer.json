@@ -1,0 +1,14 @@
+{
+  "name": "drupal/genealogy_person",
+  "type": "drupal-module",
+  "description": "Genealogy Person content type",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "http://drupal.org/project/genealogy_person",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "http://drupal.org/project/issues/genealogy_person",
+    "source": "http://cgit.drupalcode.org/genealogy_person"
+  },
+  "require": { }
+}

@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * @file
+ * Contains genealogy_gender_taxonomy.module..
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function genealogy_gender_taxonomy_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the genealogy_gender_taxonomy module.
+    case 'help.page.genealogy_gender_taxonomy':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Gender Taxonomy for Genealogy Person profile') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function genealogy_gender_taxonomy_theme() {
+  $theme = [];
+
+  return $theme;
+}

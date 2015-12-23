@@ -1,0 +1,132 @@
+<?php
+
+/**
+ * @file
+ * Contains genealogy_gender_taxonomy.install..
+ */
+
+/**
+ * Implements hook_install().
+ */
+function genealogy_gender_taxonomy_install() {
+  _genealogy_gender_taxonomy_add_terms();
+}
+
+/**
+ * Implement hook_uninstall().
+ */
+function genealogy_gender_taxonomy_uninstall() {
+  _genealogy_gender_taxonomy_remove_terms();
+}
+
+/**
+ * Updates the Gender vocabulary with the terms "Male", "Female", and "Unknown".
+ */
+function genealogy_gender_taxonomy_update_8001() {
+  _genealogy_gender_taxonomy_add_terms();
+}
+
+/**
+ * Helper function to add terms "Male", "Female" and "Unknown" to Gender taxonomy vocabulary
+ */
+function _genealogy_gender_taxonomy_add_terms() {
+  $existing_terms = NULL;
+  $existing_terms_creation = FALSE;
+  $bad_term_name_creation = FALSE;
+  $bad_term_name = NULL;
+  $bad_term_path_creation = FALSE;
+  $bad_term_path_alias = NULL;
+  $terms = array(
+    array (
+      'term' => 'Male',
+      'lang_code' => 'en',
+      'path' => '/gender/male',
+    ),
+    array (
+      'term' => 'Female',
+      'lang_code' => 'en',
+      'path' => '/gender/female',
+    ),
+    array (
+      'term' => 'Unknown',
+      'lang_code' => 'en',
+      'path' => '/gender/unknown',
+    ),
+  );
+  foreach($terms as $term) {
+    $result = taxonomy_term_load_multiple_by_name($term['term'], 'gender');
+    if (!empty($result)) {
+      $existing_terms_creation = TRUE;
+      // Add existing term to $existing_terms variable...
+      $existing_terms .= " " . $term['term'];
+      // Trim whitespace...
+      $existing_terms = trim($existing_terms);
+    }
+    else {
+      $new_term = \Drupal::entityManager()->getStorage('taxonomy_term')->create(array(
+        'name' => $term['term'],
+        'vid' => 'gender',
+        'langcode' => $term['lang_code'],
+      ))->save();
+
+      if ($new_term) {
+        $nterm = taxonomy_term_load_multiple_by_name($term['term'], 'gender');
+        $tids = array_keys($nterm);
+        if (!empty($tids)) {
+          $alias = \Drupal::service('path.alias_storage')->save('/taxonomy/term/' . $tids[0], $term['path'], $term['lang_code']);
+          if (!$alias) {
+            $bad_term_path_creation = TRUE;
+            $bad_term_path_alias .= " " . $term['path'];
+            $bad_term_path_alias = trim($bad_term_path_alias);
+          }
+        }
+        //@TODO:  program exception for no term created
+      }
+      else {
+        $bad_term_name_creation = TRUE;
+        $bad_term_name .= " " . $term['term'];
+        $bad_term_name = trim($bad_term_name);
+      }
+    }
+  }
+  if ($existing_terms_creation) {
+    throw new \Drupal\Core\Utility\UpdateException(t('The following terms already exist: %terms', array('%terms' => $existing_terms)));
+  }
+  if ($bad_term_name_creation) {
+    throw new \Drupal\Core\Utility\UpdateException(t('The following terms could not be created: %terms', array('%terms' => $bad_term_name)));
+  }
+  if ($bad_term_path_creation) {
+    throw new \Drupal\Core\Utility\UpdateException(t('The following url aliases could not be created: %terms', array('%terms' => $bad_term_path_alias)));
+  }
+}
+
+function _genealogy_gender_taxonomy_remove_terms() {
+  $terms = array(
+    array (
+      'term' => 'Male',
+      'lang_code' => 'en',
+      'path' => '/gender/male',
+    ),
+    array (
+      'term' => 'Female',
+      'lang_code' => 'en',
+      'path' => '/gender/female',
+    ),
+    array (
+      'term' => 'Unknown',
+      'lang_code' => 'en',
+      'path' => '/gender/unknown',
+    ),
+  );
+  foreach($terms as $term) {
+    $result = taxonomy_term_load_multiple_by_name($term['term'], 'gender');
+    if (!empty($result)) {
+      foreach ($result as $drop_term) {
+        $path = \Drupal::service('path.alias_storage')->load(array('alias' => $term['path']));
+        $alias_drop = \Drupal::service('path.alias_storage')->delete(array('pid' => $path['pid']));
+        $drop_term->delete();
+      }
+    }
+  }
+  \Drupal\taxonomy\Entity\Vocabulary::load('gender')->delete();
+}

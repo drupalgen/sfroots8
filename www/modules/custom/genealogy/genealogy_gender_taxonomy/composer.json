@@ -1,0 +1,14 @@
+{
+  "name": "drupal/genealogy_gender_taxonomy",
+  "type": "drupal-module",
+  "description": "Gender Taxonomy for Genealogy Person profile",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "http://drupal.org/project/genealogy_gender_taxonomy",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "http://drupal.org/project/issues/genealogy_gender_taxonomy",
+    "source": "http://cgit.drupalcode.org/genealogy_gender_taxonomy"
+  },
+  "require": { }
+}

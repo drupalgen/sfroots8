@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file
+ * Contains genealogy_person.module..
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function genealogy_person_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the genealogy_person module.
+    case 'help.page.genealogy_person':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Genealogy Person content type') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function genealogy_person_theme() {
+  $theme = [];
+
+  return $theme;
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function genealogy_person_node_presave(Drupal\Core\Entity\EntityInterface $entity) {
+  //Sets title for "Person" entities
+  if ($entity->bundle() == 'person')
+    $title = $entity->field_person_surname->value . ", " . $entity->field_person_given_name->value;
+    $entity->setTitle($title);
+    // @TODO: do indexing based on person name
+  }
+}

@@ -1,0 +1,8 @@
+name: Genealogy Person
+type: module
+description: Genealogy Person content type
+core: 8.x
+package: Genealogy
+dependencies:
+  - node
+  - genealogy_gender_taxonomy
